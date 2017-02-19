@@ -1,13 +1,10 @@
-$(document).ready(function() {
-	registerSearch();
+var app = angular.module("lab0", [])
+app.controller("lab0Ctrl", function($scope, $http)
+{
+    $scope.get = function(q){
+        $http({url: "/search", method: "GET", params: {q: q}}).then(function(response){
+            console.log(response.data)
+            $scope.res = response.data;
+        });
+    }
 });
-
-function registerSearch() {
-	$("#search").submit(function(ev){
-		event.preventDefault();
-		$.get($(this).attr('action'), {q: $("#q").val()}, function(data) {
-			$("#resultsBlock").empty().append(data);
-		});	
-	});
-}
-

@@ -1,6 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      ng-app="lab0">
 <head>
     <title>Cliente MVC Twitter</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -21,10 +22,12 @@
     <script
             src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"
             th:src="@{/webjars/bootstrap/3.3.1/js/bootstrap.min.js}"></script>
-    <script th:src="@{/functions.js}" src="../static/functions.js"></script>
     <!-- Latest compiled and minified JavaScript -->
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script th:src="@{/functions.js}" src="../static/functions.js"></script>
 </head>
-<body>
+<body ng-controller="lab0Ctrl">
 <nav class="navbar navbar-default" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -40,18 +43,27 @@
 </nav>
 <div class="container">
     <!-- Formulario principal -->
-    <form id="search" action="search" method="get">
+    <form>
         <div class="row">
-            <input type="text" class="form-control" id="q" name="q"
+            <input type="text" class="form-control" ng-model="q" 
                    placeholder="Escribe algo que quieras buscar"/>
         </div>
         <div class="row">&nbsp;</div>
         <div class="row">
-            <button type="submit" class="btn btn-default center-block">Buscar</button>
+            <button type="submit" class="btn btn-default center-block"
+                ng-click="get(q)">Buscar</button>
         </div>
     </form>
-    <div class="row">&nbsp;</div>
-    <div id="resultsBlock"></div>
+    <br/>
+    <div class="row panel panel-default" ng-repeat="t in res.tweets">
+        <div class="panel-heading">
+            <a href="https://twiter.com/{{t.fromUser}}"><b>{{t.fromUser}}</b></a>
+            <div class="pull-right">
+                <a href="https://twiter.com/{{t.fromUser}}/status/{{t.id}}"><span class="glyphicon glyphicon-link"></span></a>
+            </div>
+        </div>
+        <div class="panel-body">{{t.unmodifiedText}}</div>
+    </div>
 </div>
 </body>
 </html>
